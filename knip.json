@@ -1,0 +1,21 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "ignoreExportsUsedInFile": {
+    "interface": true,
+    "type": true
+  },
+  "ignoreIssues": {
+    "src/components/ui/**/*": ["exports", "files"],
+    "scripts/**/*": ["exports", "files"]
+  },
+  "ignoreDependencies": [
+    "@types/*",
+    "@commitlint/cli",
+    "eslint-plugin-react-hooks",
+    "@playwright/cli",
+    "zx"
+  ],
+  "tailwind": {
+    "entry": "src/index.css"
+  }
+}
