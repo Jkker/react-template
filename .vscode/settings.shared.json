@@ -1,7 +1,16 @@
 {
   "chat.useAgentSkills": true,
   "cSpell.enabled": true,
-  "cSpell.words": ["arktype", "arkenv", "arkregex", "commitlint", "oxfmt", "oxlint", "tsgo"],
+  "cSpell.words": [
+    "arktype",
+    "arkenv",
+    "arkregex",
+    "commitlint",
+    "oxfmt",
+    "oxlint",
+    "tsgo",
+    "orpc"
+  ],
   "editor.codeActionsOnSave": {
     "source.addMissingImports.ts": "explicit",
     "source.fixAll.oxc": "explicit",

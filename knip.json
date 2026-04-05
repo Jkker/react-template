@@ -9,12 +9,14 @@
     "src/hooks/**": ["exports"],
     "src/stores/**": ["exports"],
     "src/lib/regex.ts": ["exports"],
+    "src/orpc/client.ts": ["exports"],
     "scripts/**/*": ["exports", "files"]
   },
   "ignoreDependencies": [
     "@types/*",
     "@vitejs/devtools",
     "@commitlint/cli",
+    "@orpc/*",
     "eslint-plugin-react-hooks",
     "zx"
   ],

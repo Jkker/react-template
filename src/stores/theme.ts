@@ -24,7 +24,7 @@ const applyTheme = (resolvedTheme: ResolvedTheme) => {
 /**
  * Shared theme store for app-wide preference and resolved color mode.
  * @remarks Uses zustand persist with `onRehydrateStorage` to safely initialize
- * after hydration. An inline script in index.html prevents FOUC.
+ * after SSR hydration. An inline script in the root route prevents FOUC.
  */
 export const themeStore = createStore(
   { theme: 'system' as Theme, systemTheme: 'light' as ResolvedTheme },

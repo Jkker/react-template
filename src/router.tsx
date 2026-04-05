@@ -1,8 +1,7 @@
-import { RouterProvider, createRouter } from '@tanstack/react-router'
-import prefill from 'prefill'
+import { createRouter as createTanStackRouter } from '@tanstack/react-router'
 
-import { routeTree } from '../routeTree.gen'
-import { getContext } from './tanstack-query'
+import { getContext } from './lib/tanstack-query'
+import { routeTree } from './routeTree.gen'
 
 // eslint-disable-next-line react/only-export-components -- router config, not a component module
 function NotFound() {
@@ -16,29 +15,24 @@ function NotFound() {
   )
 }
 
-const createTanstackRouter = (options?: Partial<Parameters<typeof createRouter>[0]>) =>
-  createRouter({
+export function getRouter() {
+  const router = createTanStackRouter({
     routeTree,
-    context: getContext(),
     defaultNotFoundComponent: NotFound,
+
+    context: getContext(),
+
+    scrollRestoration: true,
     defaultPreload: 'intent',
     defaultPreloadStaleTime: 0,
-    scrollRestoration: true,
-    defaultStructuralSharing: true,
-    defaultViewTransition: true,
-    defaultHashScrollIntoView: true,
-    ...options,
   })
-const router = createTanstackRouter()
 
-export const TanstackRouterProvider = prefill(RouterProvider, {
-  router,
-})
+  return router
+}
 
-// Register the router instance for type safety
 declare module '@tanstack/react-router' {
   interface Register {
-    router: typeof router
+    router: ReturnType<typeof getRouter>
   }
   // https://tanstack.com/router/latest/docs/framework/react/guide/static-route-data
   interface StaticDataRouteOption {

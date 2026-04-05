@@ -80,15 +80,21 @@ export const Route = createFileRoute('/')({
                 <div className="space-y-1 pl-6 text-sm">
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Full format:</span>
-                    <span className="font-mono">{formatDateTime(now, 'full')}</span>
+                    <span className="font-mono" suppressHydrationWarning>
+                      {formatDateTime(now, 'full')}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Long format:</span>
-                    <span className="font-mono">{formatDateTime(now, 'long')}</span>
+                    <span className="font-mono" suppressHydrationWarning>
+                      {formatDateTime(now, 'long')}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Short format:</span>
-                    <span className="font-mono">{formatDateTime(now, 'short')}</span>
+                    <span className="font-mono" suppressHydrationWarning>
+                      {formatDateTime(now, 'short')}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -101,11 +107,15 @@ export const Route = createFileRoute('/')({
                 <div className="space-y-1 pl-6 text-sm">
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">5 days from now:</span>
-                    <span className="font-mono">{formatRelativeTime(futureDate)}</span>
+                    <span className="font-mono" suppressHydrationWarning>
+                      {formatRelativeTime(futureDate)}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">2 days ago:</span>
-                    <span className="font-mono">{formatRelativeTime(pastDate)}</span>
+                    <span className="font-mono" suppressHydrationWarning>
+                      {formatRelativeTime(pastDate)}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -122,7 +132,9 @@ export const Route = createFileRoute('/')({
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Days until 5 days from now:</span>
-                    <span className="font-mono">{getDaysUntil(futureDate)} days</span>
+                    <span className="font-mono" suppressHydrationWarning>
+                      {getDaysUntil(futureDate)} days
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Is 5 days from now overdue?</span>

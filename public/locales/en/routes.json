@@ -2,8 +2,11 @@
   "/": "Home",
   "/about": "About",
   "/demo": "Demos",
-  "/demo/table": "Table",
+  "/demo/auth": "Auth",
+  "/demo/drizzle": "Drizzle",
   "/demo/form": "Form",
+  "/demo/orpc": "oRPC",
   "/demo/query": "Query",
-  "/demo/storybook": "Storybook"
+  "/demo/storybook": "Storybook",
+  "/demo/table": "Table"
 }

@@ -4,6 +4,11 @@ catalog:
   '@commitlint/cli': ^20.5.0
   '@commitlint/config-conventional': ^20.5.0
   '@faker-js/faker': ^10.4.0
+  '@orpc/client': ^1.13.13
+  '@orpc/json-schema': ^1.13.13
+  '@orpc/openapi': ^1.13.13
+  '@orpc/server': ^1.13.13
+  '@orpc/tanstack-query': ^1.13.13
   '@rolldown/plugin-babel': ^0.2.2
   '@storybook/addon-a11y': ^10.3.5
   '@storybook/addon-docs': ^10.3.5
@@ -20,9 +25,10 @@ catalog:
   '@tanstack/react-query-devtools': ^5.99.0
   '@tanstack/react-router': ^1.168.19
   '@tanstack/react-router-devtools': ^1.166.13
+  '@tanstack/react-start': ^1.167.16
   '@tanstack/react-table': ^8.21.3
-  '@tanstack/router-plugin': ^1.167.19
   '@total-typescript/ts-reset': ^0.6.1
+  '@types/better-sqlite3': ^7.6.13
   '@types/node': ^25.6.0
   '@types/react': ^19.2.14
   '@types/react-dom': ^19.2.3
@@ -34,8 +40,12 @@ catalog:
   arkregex: ^0.0.5
   arktype: ^2.2.0
   babel-plugin-react-compiler: ^1.0.0
+  better-auth: ^1.5.6
+  better-sqlite3: ^12.8.0
   class-variance-authority: ^0.7.1
   clsx: ^2.1.1
+  drizzle-kit: ^0.31.10
+  drizzle-orm: ^0.45.2
   es-toolkit: ^1.45.1
   eslint-plugin-react-hooks: ^7.0.1
   i18next: ^26.0.4
@@ -77,14 +87,21 @@ strictDepBuilds: true
 
 # Explicit allowlist replaces deprecated onlyBuiltDependencies
 allowBuilds:
+  better-sqlite3: true
   esbuild: true
   msw: true
+  protobufjs: true
 
 # Prevent installing packages whose trust evidence (provenance/signatures) regressed
 trustPolicy: no-downgrade
 
 overrides:
   esbuild: '>=0.28.0'
+  h3: '>=2.0.1-rc.20'
+  'h3@<2.0.1-rc.18': '>=2.0.1-rc.20'
+  h3@>=2.0.0-beta.0 <=2.0.1-rc.16: '>=2.0.1-rc.17'
+  h3@>=2.0.0-beta.4 <2.0.1-rc.18: '>=2.0.1-rc.18'
+  h3@>=2.0.1-alpha.0 <=2.0.1-rc.16: '>=2.0.1-rc.17'
   vite: 'catalog:'
   vitest: 'catalog:'
 
