@@ -2,7 +2,7 @@ import arkenvVitePlugin from '@arkenv/vite-plugin'
 import babel from '@rolldown/plugin-babel'
 import tailwindcss from '@tailwindcss/vite'
 import { devtools as tanstackDevtools } from '@tanstack/devtools-vite'
-import { tanstackRouter } from '@tanstack/router-plugin/vite'
+import { tanstackStart } from '@tanstack/react-start/plugin/vite'
 import react, { reactCompilerPreset } from '@vitejs/plugin-react'
 import { type } from 'arkenv'
 import { defineConfig } from 'vite-plus'
@@ -22,7 +22,7 @@ const CI = !!process.env.CI
 export default defineConfig({
   plugins: [
     tanstackDevtools(),
-    tanstackRouter({ target: 'react' }),
+    tanstackStart(),
     tailwindcss(),
     react(),
     babel({ presets: [reactCompilerPreset()] }),

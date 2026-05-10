@@ -102,4 +102,14 @@ test-results
 .playwright-mcp
 .vitest-attachments
 junit-test-report.xml
-data/sqlite.db
+
+# TanStack Start
+.output
+.vinxi
+
+# Content Collections
+.content-collections
+
+# Drizzle
+*.db
+*.db-journal

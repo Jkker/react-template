@@ -15,7 +15,12 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as DemoTableRouteImport } from './routes/demo/table'
 import { Route as DemoStorybookRouteImport } from './routes/demo/storybook'
 import { Route as DemoQueryRouteImport } from './routes/demo/query'
+import { Route as DemoOrpcRouteImport } from './routes/demo/orpc'
 import { Route as DemoFormRouteImport } from './routes/demo/form'
+import { Route as DemoDrizzleRouteImport } from './routes/demo/drizzle'
+import { Route as DemoAuthRouteImport } from './routes/demo/auth'
+import { Route as ApiRpcSplatRouteImport } from './routes/api.rpc.$'
+import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
 const DemoRoute = DemoRouteImport.update({
   id: '/demo',
@@ -47,39 +52,79 @@ const DemoQueryRoute = DemoQueryRouteImport.update({
   path: '/query',
   getParentRoute: () => DemoRoute,
 } as any)
+const DemoOrpcRoute = DemoOrpcRouteImport.update({
+  id: '/orpc',
+  path: '/orpc',
+  getParentRoute: () => DemoRoute,
+} as any)
 const DemoFormRoute = DemoFormRouteImport.update({
   id: '/form',
   path: '/form',
   getParentRoute: () => DemoRoute,
+} as any)
+const DemoDrizzleRoute = DemoDrizzleRouteImport.update({
+  id: '/drizzle',
+  path: '/drizzle',
+  getParentRoute: () => DemoRoute,
+} as any)
+const DemoAuthRoute = DemoAuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => DemoRoute,
+} as any)
+const ApiRpcSplatRoute = ApiRpcSplatRouteImport.update({
+  id: '/api/rpc/$',
+  path: '/api/rpc/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
+  id: '/api/auth/$',
+  path: '/api/auth/$',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/demo': typeof DemoRouteWithChildren
+  '/demo/auth': typeof DemoAuthRoute
+  '/demo/drizzle': typeof DemoDrizzleRoute
   '/demo/form': typeof DemoFormRoute
+  '/demo/orpc': typeof DemoOrpcRoute
   '/demo/query': typeof DemoQueryRoute
   '/demo/storybook': typeof DemoStorybookRoute
   '/demo/table': typeof DemoTableRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/rpc/$': typeof ApiRpcSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/demo': typeof DemoRouteWithChildren
+  '/demo/auth': typeof DemoAuthRoute
+  '/demo/drizzle': typeof DemoDrizzleRoute
   '/demo/form': typeof DemoFormRoute
+  '/demo/orpc': typeof DemoOrpcRoute
   '/demo/query': typeof DemoQueryRoute
   '/demo/storybook': typeof DemoStorybookRoute
   '/demo/table': typeof DemoTableRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/rpc/$': typeof ApiRpcSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/demo': typeof DemoRouteWithChildren
+  '/demo/auth': typeof DemoAuthRoute
+  '/demo/drizzle': typeof DemoDrizzleRoute
   '/demo/form': typeof DemoFormRoute
+  '/demo/orpc': typeof DemoOrpcRoute
   '/demo/query': typeof DemoQueryRoute
   '/demo/storybook': typeof DemoStorybookRoute
   '/demo/table': typeof DemoTableRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/rpc/$': typeof ApiRpcSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -87,34 +132,51 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/demo'
+    | '/demo/auth'
+    | '/demo/drizzle'
     | '/demo/form'
+    | '/demo/orpc'
     | '/demo/query'
     | '/demo/storybook'
     | '/demo/table'
+    | '/api/auth/$'
+    | '/api/rpc/$'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/demo'
+    | '/demo/auth'
+    | '/demo/drizzle'
     | '/demo/form'
+    | '/demo/orpc'
     | '/demo/query'
     | '/demo/storybook'
     | '/demo/table'
+    | '/api/auth/$'
+    | '/api/rpc/$'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/demo'
+    | '/demo/auth'
+    | '/demo/drizzle'
     | '/demo/form'
+    | '/demo/orpc'
     | '/demo/query'
     | '/demo/storybook'
     | '/demo/table'
+    | '/api/auth/$'
+    | '/api/rpc/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   DemoRoute: typeof DemoRouteWithChildren
+  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  ApiRpcSplatRoute: typeof ApiRpcSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -161,6 +223,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoQueryRouteImport
       parentRoute: typeof DemoRoute
     }
+    '/demo/orpc': {
+      id: '/demo/orpc'
+      path: '/orpc'
+      fullPath: '/demo/orpc'
+      preLoaderRoute: typeof DemoOrpcRouteImport
+      parentRoute: typeof DemoRoute
+    }
     '/demo/form': {
       id: '/demo/form'
       path: '/form'
@@ -168,18 +237,52 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoFormRouteImport
       parentRoute: typeof DemoRoute
     }
+    '/demo/drizzle': {
+      id: '/demo/drizzle'
+      path: '/drizzle'
+      fullPath: '/demo/drizzle'
+      preLoaderRoute: typeof DemoDrizzleRouteImport
+      parentRoute: typeof DemoRoute
+    }
+    '/demo/auth': {
+      id: '/demo/auth'
+      path: '/auth'
+      fullPath: '/demo/auth'
+      preLoaderRoute: typeof DemoAuthRouteImport
+      parentRoute: typeof DemoRoute
+    }
+    '/api/rpc/$': {
+      id: '/api/rpc/$'
+      path: '/api/rpc/$'
+      fullPath: '/api/rpc/$'
+      preLoaderRoute: typeof ApiRpcSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/auth/$': {
+      id: '/api/auth/$'
+      path: '/api/auth/$'
+      fullPath: '/api/auth/$'
+      preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 interface DemoRouteChildren {
+  DemoAuthRoute: typeof DemoAuthRoute
+  DemoDrizzleRoute: typeof DemoDrizzleRoute
   DemoFormRoute: typeof DemoFormRoute
+  DemoOrpcRoute: typeof DemoOrpcRoute
   DemoQueryRoute: typeof DemoQueryRoute
   DemoStorybookRoute: typeof DemoStorybookRoute
   DemoTableRoute: typeof DemoTableRoute
 }
 
 const DemoRouteChildren: DemoRouteChildren = {
+  DemoAuthRoute: DemoAuthRoute,
+  DemoDrizzleRoute: DemoDrizzleRoute,
   DemoFormRoute: DemoFormRoute,
+  DemoOrpcRoute: DemoOrpcRoute,
   DemoQueryRoute: DemoQueryRoute,
   DemoStorybookRoute: DemoStorybookRoute,
   DemoTableRoute: DemoTableRoute,
@@ -191,7 +294,18 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   DemoRoute: DemoRouteWithChildren,
+  ApiAuthSplatRoute: ApiAuthSplatRoute,
+  ApiRpcSplatRoute: ApiRpcSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
