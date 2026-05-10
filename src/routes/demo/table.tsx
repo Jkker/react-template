@@ -118,12 +118,12 @@ const fuzzyFilter: FilterFn<Person> = (row, columnId, value: string, addMeta) =>
 
 const fuzzySort: SortingFn<Person> = (rowA, rowB, columnId) => {
   let dir = 0
-  if (rowA.columnFiltersMeta[columnId]) {
+  if (rowA.columnFiltersMeta[columnId])
     dir = compareItems(
       rowA.columnFiltersMeta[columnId]?.itemRank,
       rowB.columnFiltersMeta[columnId]?.itemRank,
     )
-  }
+
   return dir === 0 ? sortingFns.alphanumeric(rowA, rowB, columnId) : dir
 }
 
@@ -165,6 +165,7 @@ function TableDemo() {
       ? [{ id: 'fullName', desc: false }]
       : sorting
 
+  // oxlint-disable-next-line react-hooks-js/incompatible-library
   const table = useReactTable({
     data: useStoreValue(store, 'data'),
     columns,
@@ -350,9 +351,7 @@ function ColumnFilter({ column }: { column: Column<Person> }) {
   const deferredValue = useDeferredValue(value)
 
   // Sync deferred value to table filter declaratively during render
-  if (filterValue !== deferredValue) {
-    column.setFilterValue(deferredValue)
-  }
+  if (filterValue !== deferredValue) column.setFilterValue(deferredValue)
 
   return (
     <Input

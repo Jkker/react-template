@@ -3,6 +3,13 @@ import { beforeEach, expect, test, vi } from 'vite-plus/test'
 /** Serialize a theme value in zustand persist format */
 const persistedTheme = (theme: string) => JSON.stringify({ state: { theme }, version: 0 })
 
+type MatchMediaListener = (event: { matches: boolean }) => void
+type MatchMediaResult = {
+  matches: boolean
+  addEventListener: (type: string, handler: MatchMediaListener) => void
+  removeEventListener: () => void
+}
+
 const setupThemeDom = ({
   matches = false,
   storedTheme,
@@ -13,26 +20,24 @@ const setupThemeDom = ({
   const classNames = new Set<string>()
   const storage: Record<string, string> = {}
 
-  if (storedTheme !== undefined) {
-    storage['theme'] = persistedTheme(storedTheme)
-  }
+  if (storedTheme !== undefined) storage['theme'] = persistedTheme(storedTheme)
 
-  const mediaQueryListeners: Array<(e: { matches: boolean }) => void> = []
+  const mediaQueryListeners: MatchMediaListener[] = []
   const localStorage = {
-    getItem: vi.fn((key: string) => storage[key] ?? null),
-    setItem: vi.fn((key: string, value: string) => {
+    getItem: (key: string) => storage[key] ?? null,
+    setItem: (key: string, value: string) => {
       storage[key] = value
-    }),
-    removeItem: vi.fn((key: string) => {
+    },
+    removeItem: (key: string) => {
       delete storage[key]
-    }),
+    },
   }
-  const matchMedia = vi.fn(() => ({
+  const matchMedia = vi.fn<() => MatchMediaResult>(() => ({
     matches,
-    addEventListener: vi.fn((_: string, handler: (e: { matches: boolean }) => void) => {
+    addEventListener: (_: string, handler: MatchMediaListener) => {
       mediaQueryListeners.push(handler)
-    }),
-    removeEventListener: vi.fn(),
+    },
+    removeEventListener: () => undefined,
   }))
   const classList = {
     add: (...tokens: string[]) => {
@@ -58,12 +63,10 @@ const setupThemeDom = ({
     simulateSystemThemeChange: (dark: boolean) => {
       matchMedia.mockReturnValue({
         matches: dark,
-        addEventListener: vi.fn(),
-        removeEventListener: vi.fn(),
+        addEventListener: () => undefined,
+        removeEventListener: () => undefined,
       })
-      for (const listener of mediaQueryListeners) {
-        listener({ matches: dark })
-      }
+      for (const listener of mediaQueryListeners) listener({ matches: dark })
     },
   }
 }

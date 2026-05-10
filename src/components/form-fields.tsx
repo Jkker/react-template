@@ -1,4 +1,3 @@
-/* eslint-disable typescript-eslint/no-unsafe-return -- TanStack Form useStore types meta.errors as any[] */
 import { useStore } from '@tanstack/react-form'
 
 import { Button } from '#/components/ui/button'

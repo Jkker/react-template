@@ -11,13 +11,7 @@
     "src/lib/regex.ts": ["exports"],
     "scripts/**/*": ["exports", "files"]
   },
-  "ignoreDependencies": [
-    "@types/*",
-    "@vitejs/devtools",
-    "@commitlint/cli",
-    "eslint-plugin-react-hooks",
-    "zx"
-  ],
+  "ignoreDependencies": ["@types/*", "@commitlint/cli", "eslint-plugin-*", "zx"],
   "tailwind": {
     "entry": "src/index.css"
   }

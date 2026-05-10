@@ -32,7 +32,7 @@ describe('vitest-browser-react: Component Testing', () => {
   })
 
   test('handles click events', async () => {
-    const handleClick = vi.fn()
+    const handleClick = vi.fn<() => void>()
     const screen = await render(<Button onClick={handleClick}>Click me</Button>)
     const button = screen.getByRole('button', { name: 'Click me' })
 
@@ -73,7 +73,7 @@ describe('vitest-browser-react: Hook Testing', () => {
 
   test('useCopyToClipboard copies text successfully', async () => {
     vi.stubGlobal('navigator', {
-      clipboard: { writeText: vi.fn().mockResolvedValue(undefined) },
+      clipboard: { writeText: async (_text: string) => undefined },
     })
 
     const { result, act } = await renderHook(useCopyToClipboard)
@@ -90,7 +90,11 @@ describe('vitest-browser-react: Hook Testing', () => {
 
   test('useCopyToClipboard handles clipboard errors', async () => {
     vi.stubGlobal('navigator', {
-      clipboard: { writeText: vi.fn().mockRejectedValue(new Error('Copy failed')) },
+      clipboard: {
+        writeText: async (_text: string) => {
+          throw new Error('Copy failed')
+        },
+      },
     })
 
     const { result, act } = await renderHook(useCopyToClipboard)
@@ -109,7 +113,7 @@ describe('vitest-browser-react: Hook Testing', () => {
     vi.useFakeTimers()
 
     vi.stubGlobal('navigator', {
-      clipboard: { writeText: vi.fn().mockResolvedValue(undefined) },
+      clipboard: { writeText: async (_text: string) => undefined },
     })
 
     const { result, act } = await renderHook(useCopyToClipboard)
@@ -132,7 +136,7 @@ describe('vitest-browser-react: Hook Testing', () => {
 
 describe('Mocking: vi.fn() and Function Spies', () => {
   test('vi.fn() creates mock function', () => {
-    const mockFn = vi.fn()
+    const mockFn = vi.fn<(first: string, second: string) => void>()
 
     mockFn('arg1', 'arg2')
 
@@ -143,7 +147,7 @@ describe('Mocking: vi.fn() and Function Spies', () => {
   })
 
   test('vi.fn() with implementation', () => {
-    const mockFn = vi.fn((a: number, b: number) => a + b)
+    const mockFn = vi.fn<(a: number, b: number) => number>((a, b) => a + b)
 
     const result = mockFn(2, 3)
 
@@ -288,7 +292,7 @@ describe('Pure Utility Functions', () => {
 
 describe('Component Integration Tests', () => {
   test('disabled button has disabled attribute', async () => {
-    const handleClick = vi.fn()
+    const handleClick = vi.fn<() => void>()
     const screen = await render(
       <Button disabled onClick={handleClick}>
         Disabled

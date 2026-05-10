@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 
+// oxlint-disable-next-line import/no-unassigned-import
 import '#/stores/theme'
 import { ReactI18nextProvider } from '#/lib/i18next'
 import { TanStackQueryProvider } from '#/lib/tanstack-query'

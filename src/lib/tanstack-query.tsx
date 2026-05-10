@@ -2,7 +2,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 let context: { queryClient: QueryClient } | undefined
 
-// eslint-disable-next-line react/only-export-components -- shared context, not a component
 export function getContext() {
   if (context) return context
 

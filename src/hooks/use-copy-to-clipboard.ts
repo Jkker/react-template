@@ -9,23 +9,18 @@ export function useCopyToClipboard() {
     text: string,
     { timeout = 2_000, withToast = false }: { timeout?: number; withToast?: boolean } = {},
   ) => {
-    if (!navigator?.clipboard) {
-      return false
-    }
+    if (!navigator?.clipboard) return false
 
     try {
       await navigator.clipboard.writeText(text)
       setText(text)
 
-      if (timeout) {
+      if (timeout)
         setTimeout(() => {
           setText(undefined)
         }, timeout)
-      }
 
-      if (withToast) {
-        toast.success('Copied to clipboard')
-      }
+      if (withToast) toast.success('Copied to clipboard')
 
       return true
     } catch {

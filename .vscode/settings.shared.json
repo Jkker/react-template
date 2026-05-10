@@ -1,4 +1,19 @@
 {
+  "[css]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode"
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode"
+  },
   "chat.useAgentSkills": true,
   "cSpell.enabled": true,
   "cSpell.words": ["arktype", "arkenv", "arkregex", "commitlint", "oxfmt", "oxlint", "tsgo"],

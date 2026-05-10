@@ -4,7 +4,6 @@ import prefill from 'prefill'
 import { routeTree } from '../routeTree.gen'
 import { getContext } from './tanstack-query'
 
-// eslint-disable-next-line react/only-export-components -- router config, not a component module
 function NotFound() {
   return (
     <main className="flex min-h-[50vh] items-center justify-center">

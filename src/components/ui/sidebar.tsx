@@ -42,9 +42,7 @@ const SidebarContext = React.createContext<SidebarContextProps | null>(null)
 
 function useSidebar() {
   const context = React.useContext(SidebarContext)
-  if (!context) {
-    throw new Error('useSidebar must be used within a SidebarProvider.')
-  }
+  if (!context) throw new Error('useSidebar must be used within a SidebarProvider.')
 
   return context
 }
@@ -72,11 +70,8 @@ function SidebarProvider({
   const setOpen = React.useCallback(
     (value: boolean | ((value: boolean) => boolean)) => {
       const openState = typeof value === 'function' ? value(open) : value
-      if (setOpenProp) {
-        setOpenProp(openState)
-      } else {
-        _setOpen(openState)
-      }
+      if (setOpenProp) setOpenProp(openState)
+      else _setOpen(openState)
 
       // This sets the cookie to keep the sidebar state.
       document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`
@@ -158,7 +153,7 @@ function Sidebar({
 }) {
   const { isMobile, state, openMobile, setOpenMobile } = useSidebar()
 
-  if (collapsible === 'none') {
+  if (collapsible === 'none')
     return (
       <div
         data-slot="sidebar"
@@ -171,9 +166,8 @@ function Sidebar({
         {children}
       </div>
     )
-  }
 
-  if (isMobile) {
+  if (isMobile)
     return (
       <Sheet open={openMobile} onOpenChange={setOpenMobile} {...props}>
         <SheetContent
@@ -197,7 +191,6 @@ function Sidebar({
         </SheetContent>
       </Sheet>
     )
-  }
 
   return (
     <div
@@ -509,15 +502,12 @@ function SidebarMenuButton({
     },
   })
 
-  if (!tooltip) {
-    return comp
-  }
+  if (!tooltip) return comp
 
-  if (typeof tooltip === 'string') {
+  if (typeof tooltip === 'string')
     tooltip = {
       children: tooltip,
     }
-  }
 
   return (
     <Tooltip>

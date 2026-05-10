@@ -5,9 +5,8 @@ import { useEffect, useState } from 'react'
  * @remarks Returns `false` during non-browser execution.
  */
 export const checkMediaQuery = (q: string): boolean => {
-  if (typeof window !== 'undefined') {
-    return window.matchMedia(q).matches
-  }
+  if (typeof window !== 'undefined') return window.matchMedia(q).matches
+
   return false
 }
 
@@ -19,9 +18,7 @@ export const subscribeToMediaQuery = (
   query: string,
   listener: (matches: boolean) => void,
 ): (() => void) => {
-  if (typeof window === 'undefined') {
-    return () => undefined
-  }
+  if (typeof window === 'undefined') return () => undefined
 
   const mediaQuery = window.matchMedia(query)
   const handler = ({ matches }: MediaQueryListEvent) => listener(matches)

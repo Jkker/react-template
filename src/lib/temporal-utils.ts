@@ -59,9 +59,9 @@ export function formatDateTime(
   timeZone?: string,
 ): string {
   const dt = typeof dateTime === 'string' ? Temporal.PlainDateTime.from(dateTime) : dateTime
-  if (dt instanceof Temporal.ZonedDateTime) {
+  if (dt instanceof Temporal.ZonedDateTime)
     return dt.toLocaleString(undefined, dateTimeFormats[style])
-  }
+
   const zoned =
     dt instanceof Temporal.ZonedDateTime
       ? dt
@@ -84,21 +84,13 @@ export function formatRelativeTime(
 
   const diff = dt.until(base, { largestUnit: 'days' })
 
-  if (Math.abs(diff.days) > 7) {
-    return formatDateTime(dateTime, 'dateOnly')
-  }
+  if (Math.abs(diff.days) > 7) return formatDateTime(dateTime, 'dateOnly')
 
-  if (Math.abs(diff.days) >= 1) {
-    return relativeTimeFormat.format(-diff.days, 'day')
-  }
+  if (Math.abs(diff.days) >= 1) return relativeTimeFormat.format(-diff.days, 'day')
 
-  if (Math.abs(diff.hours) >= 1) {
-    return relativeTimeFormat.format(-diff.hours, 'hour')
-  }
+  if (Math.abs(diff.hours) >= 1) return relativeTimeFormat.format(-diff.hours, 'hour')
 
-  if (Math.abs(diff.minutes) >= 1) {
-    return relativeTimeFormat.format(-diff.minutes, 'minute')
-  }
+  if (Math.abs(diff.minutes) >= 1) return relativeTimeFormat.format(-diff.minutes, 'minute')
 
   return relativeTimeFormat.format(-Math.floor(diff.seconds), 'second')
 }
@@ -171,17 +163,13 @@ export function addBusinessDays(
   while (remainingDays > 0) {
     result = result.add({ days: 1 })
     const dayOfWeek = result.dayOfWeek
-    if (dayOfWeek !== 6 && dayOfWeek !== 7) {
-      remainingDays--
-    }
+    if (dayOfWeek !== 6 && dayOfWeek !== 7) remainingDays--
   }
 
   while (remainingDays < 0) {
     result = result.subtract({ days: 1 })
     const dayOfWeek = result.dayOfWeek
-    if (dayOfWeek !== 6 && dayOfWeek !== 7) {
-      remainingDays++
-    }
+    if (dayOfWeek !== 6 && dayOfWeek !== 7) remainingDays++
   }
 
   return result

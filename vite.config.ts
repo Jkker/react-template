@@ -33,7 +33,14 @@ export default defineConfig({
     include: ['i18next', 'i18next-browser-languagedetector', 'i18next-http-backend'],
   },
   server: { port: Number(process.env.PORT) || 5173 },
-
+  run: {
+    tasks: {
+      ready: {
+        command: 'knip',
+        dependsOn: ['fix', 'build', 'test'],
+      },
+    },
+  },
   // ── Format (oxfmt) ────────────────────────────────────────────────
   fmt: {
     ignorePatterns: [
@@ -65,15 +72,20 @@ export default defineConfig({
 
   // ── Lint (oxlint) ─────────────────────────────────────────────────
   lint: {
+    options: { typeAware: true, typeCheck: true, reportUnusedDisableDirectives: 'warn' },
     plugins: ['unicorn', 'eslint', 'typescript', 'oxc', 'import', 'promise', 'react', 'react-perf'],
+    jsPlugins: [
+      { name: 'react-hooks-js', specifier: 'eslint-plugin-react-hooks' },
+      'eslint-plugin-react-you-might-not-need-an-effect',
+    ],
     categories: { correctness: 'deny', suspicious: 'warn' },
     env: { builtin: true, es2026: true, browser: true },
     rules: {
-      curly: ['warn', 'multi-line'],
+      curly: ['warn', 'multi'],
+      'arrow-body-style': ['warn', 'as-needed'],
+      'no-shadow': 0,
       'no-useless-rename': 'warn',
-      'arrow-body-style': 'warn',
       'no-var': 'deny',
-      'no-shadow': 'off',
       'no-unused-vars': [
         'warn',
         {
@@ -86,10 +98,64 @@ export default defineConfig({
         },
       ],
 
+      'oxc/branches-sharing-code': 'error',
+      'oxc/no-barrel-file': 'error',
+
+      'import/export': 'deny',
+      'import/no-duplicates': 'warn',
+      'import/no-empty-named-blocks': 'warn',
+      'import/no-cycle': 'deny',
+      'import/no-named-default': 'warn',
+      'import/namespace': 0,
+      'import/named': 0,
+      'import/default': 0,
+      'import/no-named-as-default-member': 0,
+      'import/no-named-as-default': 0,
+      'import/no-unassigned-import': [
+        'warn',
+        {
+          allow: [
+            '**/*.css',
+            'react',
+            'temporal-polyfill/global',
+            'vite-plus/test/browser/context',
+          ],
+        },
+      ],
+
+      'typescript/no-explicit-any': 'warn',
+      'typescript/no-unnecessary-type-constraint': 'warn',
+      'typescript/no-redundant-type-constituents': 'warn',
+      'typescript/no-useless-empty-export': 'warn',
+      'typescript/no-unsafe-type-assertion': 0,
+      'typescript/no-extra-non-null-assertion': 'deny',
+      'typescript/no-non-null-asserted-optional-chain': 'deny',
+      'typescript/prefer-as-const': 'warn',
+      'typescript/no-duplicate-enum-values': 'deny',
+      'typescript/triple-slash-reference': 'deny',
+      'typescript/no-misused-new': 'deny',
+      'typescript/no-this-alias': 'warn',
+      'typescript/no-unsafe-declaration-merging': 'deny',
+      'typescript/await-thenable': 'deny',
+      'typescript/no-floating-promises': 'deny',
+      'typescript/no-for-in-array': 'deny',
+      'typescript/no-implied-eval': 'deny',
+      'typescript/no-base-to-string': 'warn',
+      'typescript/restrict-template-expressions': 'warn',
+      'typescript/unbound-method': 'warn',
+
+      'unicorn/no-array-for-each': 'warn',
+      'unicorn/prefer-array-find': 'warn',
+
+      'promise/param-names': 'deny',
+      'promise/no-new-statics': 'deny',
+      'promise/valid-params': 'deny',
+
+      // React rules
       'react/rules-of-hooks': 'deny',
       'react/exhaustive-deps': 'warn',
-      'react/only-export-components': ['warn', { allowConstantExport: true }],
-      'react/react-in-jsx-scope': 'off',
+      'react/only-export-components': 0,
+      'react/react-in-jsx-scope': 0,
       'react/self-closing-comp': 'warn',
       'react/jsx-no-useless-fragment': 'warn',
       'react/button-has-type': 'warn',
@@ -100,55 +166,40 @@ export default defineConfig({
         { props: 'never', children: 'never', propElementValues: 'always' },
       ],
 
-      'import/export': 'deny',
-      'import/no-duplicates': 'warn',
-      'import/no-cycle': 'deny',
-      'import/no-named-default': 'warn',
-      'import/namespace': 'off',
-      'import/default': 'off',
-      'import/no-named-as-default-member': 'off',
-      'import/no-named-as-default': 'off',
-      'import/no-unassigned-import': 'off',
-
-      'typescript/no-inferrable-types': 'warn',
-      'typescript/no-import-type-side-effects': 'error',
-      'typescript/array-type': ['warn', { default: 'array-simple' }],
-      'typescript/no-empty-object-type': ['error', { allowInterfaces: 'with-single-extends' }],
-      'typescript/consistent-type-imports': [
-        'error',
-        { prefer: 'type-imports', fixStyle: 'inline-type-imports', disallowTypeAnnotations: false },
-      ],
-      'typescript/no-confusing-non-null-assertion': 'error',
-      'typescript/no-extraneous-class': 'error',
-      'typescript/no-explicit-any': 'deny',
-      'typescript/no-redundant-type-constituents': 'warn',
-      'typescript/no-useless-empty-export': 'warn',
-      'typescript/prefer-as-const': 'warn',
-      'typescript/no-this-alias': 'warn',
-      'typescript/no-unsafe-argument': 'deny',
-      'typescript/no-unsafe-assignment': 'deny',
-      'typescript/no-unsafe-call': 'deny',
-      'typescript/no-unsafe-member-access': 'deny',
-      'typescript/no-unsafe-return': 'deny',
-      'typescript/no-unsafe-type-assertion': 'off',
-      'typescript/prefer-function-type': 'error',
-      'typescript/prefer-nullish-coalescing': 'error',
-      'typescript/no-base-to-string': 'warn',
-      'typescript/restrict-template-expressions': 'warn',
-      'typescript/unbound-method': 'warn',
-
-      'unicorn/no-array-for-each': 'warn',
-      'unicorn/prefer-array-find': 'warn',
-      'unicorn/require-post-message-target-origin': 'off',
-
-      'promise/param-names': 'deny',
+      // ref:
+      // - https://github.com/TheAlexLichter/oxlint-react-compiler-rules/issues/1
+      // - https://github.com/facebook/react/blob/main/packages/eslint-plugin-react-hooks/README.md#custom-configuration
+      // Recommended rules (from LintRulePreset.Recommended)
+      'react-hooks-js/config': 'deny',
+      'react-hooks-js/error-boundaries': 'deny',
+      'react-hooks-js/gating': 'deny',
+      'react-hooks-js/globals': 'deny',
+      'react-hooks-js/immutability': 'deny',
+      'react-hooks-js/incompatible-library': 'warn',
+      'react-hooks-js/preserve-manual-memoization': 'deny',
+      'react-hooks-js/purity': 'deny',
+      'react-hooks-js/refs': 'deny',
+      'react-hooks-js/set-state-in-effect': 'warn',
+      'react-hooks-js/set-state-in-render': 'deny',
+      'react-hooks-js/static-components': 'deny',
+      'react-hooks-js/unsupported-syntax': 'warn',
+      'react-hooks-js/use-memo': 'deny',
+      // Recommended-latest rules (from LintRulePreset.RecommendedLatest)
+      'react-hooks-js/void-use-memo': 'deny',
+      // https://github.com/nickjvandyke/eslint-plugin-react-you-might-not-need-an-effect
+      'react-you-might-not-need-an-effect/no-derived-state': 'warn',
+      'react-you-might-not-need-an-effect/no-chain-state-updates': 'warn',
+      'react-you-might-not-need-an-effect/no-event-handler': 'warn',
+      'react-you-might-not-need-an-effect/no-adjust-state-on-prop-change': 'warn',
+      'react-you-might-not-need-an-effect/no-reset-all-state-on-prop-change': 'warn',
+      'react-you-might-not-need-an-effect/no-pass-live-state-to-parent': 'warn',
+      'react-you-might-not-need-an-effect/no-pass-data-to-parent': 'warn',
+      'react-you-might-not-need-an-effect/no-initialize-state': 'warn',
     },
     settings: {
-      'jsx-a11y': { components: {}, attributes: {} },
       react: { formComponents: [], linkComponents: ['Link'], version: '19.2' },
       vitest: { typecheck: true },
     },
-    options: { typeAware: true, typeCheck: true },
     overrides: [
       {
         files: ['**/*.{test,spec}.*', '**/tests/**/*.*', 'docs/storybook/.storybook/*'],
@@ -168,43 +219,6 @@ export default defineConfig({
       {
         files: ['**/components/ui/**/*.{ts,tsx}', '**/hooks/**/*.{ts,tsx}', '**/lib/**/*.{ts,tsx}'],
         rules: { 'react/only-export-components': 'off' },
-      },
-      {
-        files: ['**/*.stories.*', '**/storybook/**/*.*'],
-        rules: { 'react/rules-of-hooks': 'off' },
-      },
-      {
-        files: ['src/**/*.{ts,tsx}'],
-        jsPlugins: [{ name: 'react-hooks-js', specifier: 'eslint-plugin-react-hooks' }],
-        rules: {
-          'react-hooks-js/component-hook-factories': 'error',
-          'react-hooks-js/config': 'error',
-          'react-hooks-js/error-boundaries': 'error',
-          'react-hooks-js/gating': 'error',
-          'react-hooks-js/globals': 'error',
-          'react-hooks-js/immutability': 'error',
-          'react-hooks-js/incompatible-library': 'off',
-          'react-hooks-js/preserve-manual-memoization': 'error',
-          'react-hooks-js/purity': 'error',
-          'react-hooks-js/refs': 'error',
-          'react-hooks-js/set-state-in-effect': 'error',
-          'react-hooks-js/set-state-in-render': 'error',
-          'react-hooks-js/static-components': 'error',
-          'react-hooks-js/unsupported-syntax': 'error',
-          'react-hooks-js/use-memo': 'error',
-          'react-hooks-js/void-use-memo': 'error',
-          'react-hooks-js/automatic-effect-dependencies': 'error',
-          'react-hooks-js/capitalized-calls': 'error',
-          'react-hooks-js/fbt': 'off',
-          'react-hooks-js/fire': 'off',
-          'react-hooks-js/hooks': 'error',
-          'react-hooks-js/invariant': 'error',
-          'react-hooks-js/memoized-effect-dependencies': 'error',
-          'react-hooks-js/no-deriving-state-in-effects': 'error',
-          'react-hooks-js/rule-suppression': 'off',
-          'react-hooks-js/syntax': 'error',
-          'react-hooks-js/todo': 'off',
-        },
       },
     ],
     ignorePatterns: [

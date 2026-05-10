@@ -41,9 +41,7 @@ export const themeStore = createStore(
         queueMicrotask(() => {
           // Validate rehydrated theme — reject unknown values
           const raw = themeStore.get('theme')
-          if (ThemeValue(raw) instanceof type.errors) {
-            themeStore.set('theme', 'system')
-          }
+          if (ThemeValue(raw) instanceof type.errors) themeStore.set('theme', 'system')
 
           const systemTheme: ResolvedTheme = checkMediaQuery(MEDIA_QUERY) ? 'dark' : 'light'
           themeStore.set('systemTheme', systemTheme)
